@@ -13,6 +13,7 @@ public class SendPersonListener implements ApplicationListener<SendPersonEvent> 
     }
 
     void showOnConsolePerson(SendPersonEvent sendPersonEvent) {
+        System.out.println("first listener");
         System.out.println(sendPersonEvent.getPerson().toString());
     }
 
