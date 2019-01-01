@@ -9,6 +9,11 @@ public class Student {
         return name;
     }
 
+    @Override
+    public String toString(){
+        return "Surname: " + surname + ", " + "name" + name;
+    }
+
     public Student(String name, String surname) {
         this.name = name;
         this.surname = surname;

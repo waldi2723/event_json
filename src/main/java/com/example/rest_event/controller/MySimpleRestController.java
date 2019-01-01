@@ -21,7 +21,7 @@ public class MySimpleRestController {
     @PostMapping
     public Object getRequest(@RequestBody Person[] person) {
         eventPublisher.publishEvent(new SendPersonEvent(person[0]));
-        Person student = new Person(person[0].getName(), person[0].getSurname(), person[0].getAge());
+        Person person1 = new Person(person[0].getName(), person[0].getSurname(), person[0].getAge());
         return "okej";
     }
 

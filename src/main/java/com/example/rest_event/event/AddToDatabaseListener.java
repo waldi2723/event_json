@@ -12,7 +12,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 
-
 public class AddToDatabaseListener implements ApplicationListener<AddToDatabaseEvent> {
     private DataSourceTransactionManager dataSourceTransactionManager;
     private JdbcTemplate jdbcTemplate;
@@ -29,8 +28,8 @@ public class AddToDatabaseListener implements ApplicationListener<AddToDatabaseE
 
     private void performDbAction(AddToDatabaseEvent addToDatabaseEvent) {
 
-        TransactionDefinition def = new DefaultTransactionDefinition();
-        TransactionStatus status = dataSourceTransactionManager.getTransaction(def);
+        TransactionStatus status = getTransactionStatus();
+
 
         try {
             Student student = (Student) addToDatabaseEvent.getSource();
@@ -40,7 +39,7 @@ public class AddToDatabaseListener implements ApplicationListener<AddToDatabaseE
 
             String SQL2 = "select * from student";
             List<Student> studentList = jdbcTemplate.query(SQL2, new StudentRowMapper());
-            System.out.println(studentList);
+            studentList.stream().forEach(x -> System.out.println(x.toString()));
             dataSourceTransactionManager.commit(status);
 
         } catch (DataAccessException e) {
@@ -50,19 +49,11 @@ public class AddToDatabaseListener implements ApplicationListener<AddToDatabaseE
         }
     }
 
-    public DataSourceTransactionManager getDataSourceTransactionManager() {
-        return dataSourceTransactionManager;
+    public TransactionStatus getTransactionStatus() {
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus status = dataSourceTransactionManager.getTransaction(def);
+        return status;
     }
 
-    public void setDataSourceTransactionManager(DataSourceTransactionManager dataSourceTransactionManager) {
-        this.dataSourceTransactionManager = dataSourceTransactionManager;
-    }
 
-    public JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplate;
-    }
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 }
