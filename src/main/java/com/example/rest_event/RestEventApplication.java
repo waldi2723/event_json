@@ -2,12 +2,19 @@ package com.example.rest_event;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class RestEventApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RestEventApplication.class, args);
+
+
+        ApplicationContext applicationContext = SpringApplication.run(RestEventApplication.class, args);
+
+        for (String name : applicationContext.getBeanDefinitionNames()) {
+            System.out.println(name);
+        }
     }
 
 }
