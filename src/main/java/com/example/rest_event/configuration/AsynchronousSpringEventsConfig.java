@@ -4,8 +4,6 @@ import com.example.rest_event.event.AddToDatabaseListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
@@ -24,7 +22,7 @@ public class AsynchronousSpringEventsConfig {
         return eventMulticaster;
     }
 
-    @Bean
+   /* @Bean
     public DriverManagerDataSource driverManagerDataSource() {
         DriverManagerDataSource driverManagerDataSource =
                 new DriverManagerDataSource();
@@ -33,15 +31,15 @@ public class AsynchronousSpringEventsConfig {
         driverManagerDataSource.setUsername("postgres");
         driverManagerDataSource.setPassword("nokia27");
         return driverManagerDataSource;
-    }
+    } */
 
-    @Bean
+   /* @Bean
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(driverManagerDataSource());
-    }
+    } */
 
 
-    @Bean("dataSourceTransactionManager")
+   /* @Bean("dataSourceTransactionManager")
     public DataSourceTransactionManager dataSourceTransactionManager() {
 
 
@@ -51,17 +49,17 @@ public class AsynchronousSpringEventsConfig {
    <bean id ="transactionManager"
     class ="org.springframework.jdbc.datasource.DataSourceTransactionManager">
       <property name ="dataSource"ref ="dataSource"/>
-   </bean> */
+   </bean>
 
         DataSourceTransactionManager dataSourceTransactionManager =
                 new DataSourceTransactionManager();
         dataSourceTransactionManager.setDataSource(driverManagerDataSource()); //using method from this conifguration file
         return dataSourceTransactionManager;
-    }
+    } */
 
-    @Bean
+  /*  @Bean
     @Autowired
     public AddToDatabaseListener addToDatabaseListener(JdbcTemplate jdbcTemplate) {
         return new AddToDatabaseListener(dataSourceTransactionManager(), jdbcTemplate);
-    }
+    } */
 }
