@@ -6,19 +6,19 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Configuration;
 
-@Aspect
-@Configuration
+//@Aspect
+//@Configuration
 public class AopLoggingController {
 
-    @Pointcut("execution(* com.example.rest_event.controller.MySimpleRestController.getRequest(..))")
+   // @Pointcut("execution(* com.example.rest_event.controller.MySimpleRestController.getRequest(..))")
     private void selectController(){}
 
-    @Before("selectController()")
+  //  @Before("selectController()")
     public void getInformationBeforeCallingController(){
         System.out.println("Controller invoked!!!");
     }
 
-    @After("selectController()")
+  //  @After("selectController()")
     public void getInformationAfterCallingController(){
         System.out.println("after Controller invoked!!");
     }

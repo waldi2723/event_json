@@ -14,13 +14,13 @@
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="performDbAction"/>
+            <tx:method name="create"/>
         </tx:attributes>
     </tx:advice>
 
     <aop:config>
         <aop:pointcut id="createOperation"
-                      expression="execution(* com.example.rest_event.event.AddToDatabaseListener.performDbAction())"/>
+                      expression="execution(* com.example.rest_event.event.AddToDatabaseListener.create(..))"/>
 
         <aop:advisor advice-ref="txAdvice" pointcut-ref="createOperation"/>
     </aop:config>
@@ -46,6 +46,7 @@
         <constructor-arg name="dataSourceTransactionManager" ref="transactionManager"></constructor-arg>
 
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"></constructor-arg>
+        <constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
     </bean>
 
     <bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" scope="singleton">

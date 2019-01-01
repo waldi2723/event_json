@@ -11,27 +11,31 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
 
 public class AddToDatabaseListener implements ApplicationListener<AddToDatabaseEvent> {
     private DataSourceTransactionManager dataSourceTransactionManager;
     private JdbcTemplate jdbcTemplate;
+    private DataSource dataSource;
 
-    public AddToDatabaseListener(DataSourceTransactionManager dataSourceTransactionManager, JdbcTemplate jdbcTemplate) {
+    public AddToDatabaseListener(DataSourceTransactionManager dataSourceTransactionManager, JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.dataSourceTransactionManager = dataSourceTransactionManager;
         this.jdbcTemplate = jdbcTemplate;
+        this.dataSource = dataSource;
+
     }
 
     @Override
     public void onApplicationEvent(AddToDatabaseEvent addToDatabaseEvent) {
-        performDbAction(addToDatabaseEvent);
+        create(addToDatabaseEvent);
     }
 
-    public void performDbAction(AddToDatabaseEvent addToDatabaseEvent) {
+    public void create(AddToDatabaseEvent addToDatabaseEvent) {
 
         //  TransactionStatus status = getTransactionStatus(); -- comment due to using AOP
-
+        jdbcTemplate = new JdbcTemplate(dataSource);
 
         try {
             Student student = (Student) addToDatabaseEvent.getSource();
@@ -42,7 +46,7 @@ public class AddToDatabaseListener implements ApplicationListener<AddToDatabaseE
             String SQL2 = "select * from student";
 
             if (true) {
-                throw new BadSqlGrammarException("asdf", SQL2, new SQLException());
+                throw new RuntimeException("simulate Error condition") ;
             }
             List<Student> studentList = jdbcTemplate.query(SQL2, new StudentRowMapper());
             studentList.stream().forEach(x -> System.out.println(x.toString()));
