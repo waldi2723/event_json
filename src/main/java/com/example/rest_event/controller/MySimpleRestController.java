@@ -18,6 +18,7 @@ public class MySimpleRestController {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+
     @PostMapping
     public Object getRequest(@RequestBody Person[] person) {
         eventPublisher.publishEvent(new SendPersonEvent(person[0]));

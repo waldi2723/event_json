@@ -2,6 +2,9 @@ package com.example.rest_event.event;
 
 import com.example.rest_event.model.Student;
 import com.example.rest_event.model.StudentRowMapper;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,6 +19,8 @@ import java.util.List;
 public class AddToDatabaseListener implements ApplicationListener<AddToDatabaseEvent> {
     private DataSourceTransactionManager dataSourceTransactionManager;
     private JdbcTemplate jdbcTemplate;
+
+    private static final Logger logger = LogManager.getLogger(AddToDatabaseEvent.class);
 
     public AddToDatabaseListener(DataSourceTransactionManager dataSourceTransactionManager, JdbcTemplate jdbcTemplate) {
         this.dataSourceTransactionManager = dataSourceTransactionManager;
@@ -42,6 +47,8 @@ public class AddToDatabaseListener implements ApplicationListener<AddToDatabaseE
             List<Student> studentList = jdbcTemplate.query(SQL2, new StudentRowMapper());
             System.out.println(studentList);
             dataSourceTransactionManager.commit(status);
+
+            logger.info("Info log");
 
         } catch (DataAccessException e) {
             System.out.println("Error in creating record, rolling back");
