@@ -2,8 +2,10 @@ package com.example.rest_event.controller;
 
 import com.example.rest_event.event.AddToDatabaseEvent;
 import com.example.rest_event.event.SendPersonEvent;
+import com.example.rest_event.model.GreetingService;
 import com.example.rest_event.model.Person;
 import com.example.rest_event.model.Student;
+import com.example.rest_event.service.SendPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,9 @@ public class MySimpleRestController {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    private GreetingService greetingService;
+
 
     @PostMapping
     public Object getRequest(@RequestBody Person[] person) {
@@ -29,6 +34,7 @@ public class MySimpleRestController {
     @PostMapping
     @RequestMapping("/student")
     public String postStudent(@RequestBody Student student) {
+        greetingService.greeting();
         eventPublisher.publishEvent(new AddToDatabaseEvent(student));
         return "ok";
     }

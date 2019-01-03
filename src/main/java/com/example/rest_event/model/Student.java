@@ -1,10 +1,17 @@
 package com.example.rest_event.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+//@JsonIgnoreProperties({"name"})
 public class Student {
+
+
 
     private String name;
     private String surname;
 
+    //@JsonIgnore
     public String getName() {
         return name;
     }
