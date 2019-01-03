@@ -18,20 +18,11 @@ import java.util.concurrent.CountDownLatch;
 @SpringBootApplication
 public class RestEventApplication {
 
-    private static final Logger logger = LogManager.getLogger(RestEventApplication.class);
 
     public static void main(String[] args) throws InterruptedException {
-        ApplicationContext ctx = SpringApplication.run(RestEventApplication.class, args);
+        SpringApplication.run(RestEventApplication.class, args);
 
-        StringRedisTemplate template = ctx.getBean(StringRedisTemplate.class);
-        CountDownLatch latch = ctx.getBean(CountDownLatch.class);
 
-        logger.info("Sending message...");
-        template.convertAndSend("chat", "hello");
-
-        latch.await();
-
-        System.exit(0);
     }
 
 }

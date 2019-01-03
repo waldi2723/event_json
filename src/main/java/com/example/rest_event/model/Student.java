@@ -55,4 +55,9 @@ public class Student {
             return new Student(this.name, this.surname);
         }
     }
+
+    @Override
+    public String toString(){
+        return "Imie: " + name + ", nazwisko:" + surname;
+    }
 }
