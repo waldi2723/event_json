@@ -3,18 +3,19 @@ package com.example.rest_event.configuration;
 import com.example.rest_event.event.AddToDatabaseListener;
 import com.example.rest_event.model.EnglishGreetingService;
 import com.example.rest_event.model.FrenchGreetingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 @Configuration
+@Import(RabbitMqBeansConfiguration.class)
 public class AsynchronousSpringEventsConfig {
     @Bean(name = "applicationEventMulticaster")
     public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
@@ -37,7 +38,7 @@ public class AsynchronousSpringEventsConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate(){
+    public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(driverManagerDataSource());
     }
 
@@ -68,13 +69,13 @@ public class AsynchronousSpringEventsConfig {
 
     @Bean
     @ConditionalOnProperty(name = "language.name", havingValue = "polish")
-    public FrenchGreetingService frenchGreetingService(){
+    public FrenchGreetingService frenchGreetingService() {
         return new FrenchGreetingService();
     }
 
     @Bean
-    @ConditionalOnProperty(name = "language.name", havingValue = "english",  matchIfMissing = true)
-    public EnglishGreetingService englishGreetingService(){
+    @ConditionalOnProperty(name = "language.name", havingValue = "english", matchIfMissing = true)
+    public EnglishGreetingService englishGreetingService() {
         return new EnglishGreetingService();
     }
 }
