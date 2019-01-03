@@ -1,5 +1,6 @@
 package com.example.rest_event.controller;
 
+import com.example.rest_event.configuration.AsynchronousSpringEventsConfig;
 import com.example.rest_event.event.AddToDatabaseEvent;
 import com.example.rest_event.event.SendPersonEvent;
 import com.example.rest_event.model.GreetingService;
@@ -23,6 +24,12 @@ public class MySimpleRestController {
     @Autowired
     private GreetingService greetingService;
 
+    @Autowired
+    private SendPersonService sendPersonService;
+
+    @Autowired
+    private AsynchronousSpringEventsConfig asynchronousSpringEventsConfig;
+
 
     @PostMapping
     public Object getRequest(@RequestBody Person[] person) {
@@ -33,9 +40,12 @@ public class MySimpleRestController {
 
     @PostMapping
     @RequestMapping("/student")
-    public String postStudent(@RequestBody Student student) {
+    @Autowired(required = false)
+    public String postStudent(@RequestBody Student student ) {
         greetingService.greeting();
+
         eventPublisher.publishEvent(new AddToDatabaseEvent(student));
+        asynchronousSpringEventsConfig.jdbcTemplate();
         return "ok";
     }
 }

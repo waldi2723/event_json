@@ -44,7 +44,12 @@ public class AddToDatabaseListener implements ApplicationListener<AddToDatabaseE
             jdbcTemplate.update(SQL1, student.getName(), student.getSurname());
 
             String SQL2 = "select * from student";
-            List<Student> studentList = jdbcTemplate.query(SQL2, new StudentRowMapper());
+            List<Student> studentList = jdbcTemplate.query(SQL2, (resultSet, i) -> {
+                Student.StudentBuilder studentBuilder = new Student.StudentBuilder();
+                studentBuilder.setName(resultSet.getString("name"));
+                studentBuilder.setSurname(resultSet.getString("surname"));
+                return studentBuilder.build();
+            });
             System.out.println(studentList);
             dataSourceTransactionManager.commit(status);
 
