@@ -3,8 +3,10 @@ package com.example.rest_event.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 //@JsonIgnoreProperties({"name"})
-public class Student {
+public class Student implements Serializable {
 
 
 
@@ -54,5 +56,10 @@ public class Student {
         public Student build() {
             return new Student(this.name, this.surname);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + " Surname" + surname;
     }
 }
